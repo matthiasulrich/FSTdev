@@ -1,0 +1,24 @@
+#wp-admin-bar-clearfy-menu{
+	display: none;
+}
+
+.post-type-konzert-archiv .acf-field[data-name="teaserbild_auf_startseite"]{
+	/*display: none;*/
+}
+
+.wp-heading-inline{
+}
+
+body#tinymce.wp-editor .programm_lauftext{}
+body#tinymce.wp-editor .programm_titel{
+	font-weight: bold;
+}
+body#tinymce.wp-editor .programm_uppercase{
+text-transform: uppercase;
+}
+
+body#tinymce.wp-editor .programm_klein_italic {
+font-size: 90%;
+font-style: italic;
+
+}

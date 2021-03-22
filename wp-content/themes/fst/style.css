@@ -1,0 +1,961 @@
+/*
+Theme Name: fathom string trio 
+Author: ulrich.digital
+Author URI: https://ulrich.digital
+Version: 2019.1
+License: GNU General Public License
+License URI: https://www.gnu.org/licenses/gpl.html
+Description: Das Worpress Theme ulrich_digital_blank ist ein Entwicklungs-Theme von ulrich.digital.
+Text Domain: ulrich_digital_blank
+*/
+
+/*
+FARBEN
+blau = #3062b5
+rot = #b31717;;
+*/
+
+html{
+	background: black;
+	height: 100%;
+	hyphens: auto;
+}
+
+body{
+	position:relative;
+	background:white;
+	min-height: 100%;
+
+	font-family: jaf-domus, sans-serif;
+	font-weight: 300;
+	font-style: normal;
+	font-size: 24px;
+	line-height: 1.5;
+	}
+	
+
+/* =============================================================== *\ 
+ 	Footer unten 
+\* =============================================================== */ 
+  
+body{
+	position: relative;
+	min-height: 100vh;	  
+	}
+	
+
+/* =============================================================== *\ 
+
+ 	 Titel 
+
+\* =============================================================== */ 
+  #content_container, 
+  #site-title, 
+  #hamburger_container{
+	  opacity: 0;
+  }
+
+
+
+
+ /* ================================================== *\ 
+
+ 	 Hamburger 
+
+\* ================================================== */ 
+  
+#hamburger_container {
+	cursor: pointer;
+	z-index: 9990;
+	position: fixed;
+	top: 0;
+	right: 0;
+	background: white;
+
+	}
+
+.hamburger {
+	width: 38px;
+	height: 38px;
+	}
+
+.hamburger .line {
+	position: absolute;
+	height: 4px;
+	width: 38px;
+	background: black;
+	display: block;
+	transition: 0.2s;
+	transform-origin: center;
+	}
+
+.hamburger .line:nth-child(1) {
+	top: 9px;
+	}
+
+.hamburger .line:nth-child(2) {
+	top: 18px;
+	opacity: 0;
+	}
+
+.hamburger .line:nth-child(3) {
+	top: 27px;
+	}
+	
+.hamburger.checked .line{
+	background: black;
+	}
+	
+.hamburger.checked .line:nth-child(1) {
+	transform: translateY(9px) rotate(-45deg);
+	}
+
+.hamburger.checked .line:nth-child(2) {
+	opacity: 0;
+	}
+
+.hamburger.checked .line:nth-child(3) {
+	transform: translateY(-9px) rotate(45deg);
+	}
+
+
+/* =============================================================== *\ 
+
+ 	 Menu 
+
+\* =============================================================== */ 
+  
+#menu {
+	font-family: brandon-grotesque, sans-serif;
+	position: fixed;
+	z-index: 9980;
+    width: 100%;    
+	height: 100%;
+    top: 0;
+    transition: all 0.2s;
+    opacity: 0;
+    visibility: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    }
+
+#menu.offen > div {
+	background: rgba(255,255,255,1.9);
+	height: 100%;
+	position: relative;
+	}
+
+#menu.offen {
+	opacity: 1;
+	visibility: visible;
+    }
+
+#menu .menu-hauptmenue-container ul {
+	margin: auto;
+	width: 100%;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+    }
+
+#menu .menu-hauptmenue-container  ul li {
+	margin: auto;
+	text-align: center;
+    }
+
+#menu .menu-hauptmenue-container  a {
+	text-transform: uppercase;
+	text-decoration: none;
+	font-size: 7vw;
+	color: black;
+	line-height: 1.5;
+	border-bottom: 0px;
+    }
+
+#menu.offen > .menu-rechtliches-container{
+	width:100%;
+	bottom: 0;
+    position: fixed;
+    height: auto;
+    background: transparent;
+    font-size: 20px;
+    line-height: 1;
+    margin-bottom: 10px;
+    margin-left: 10px;
+	z-index: 9999;
+	}
+
+#menu.offen > .menu-rechtliches-container a{
+	font-family: jaf-domus, sans-serif;
+	border-bottom: 1px solid transparent;
+	}
+#menu-rechtliches{
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#menu-rechtliches .menu-item{
+    text-align: center;
+	margin:10px;
+}
+#menu-rechtliches .menu-item .fa-person-sign{
+	font-size: 36px;
+	padding-left: 10px;
+}
+
+#menu-rechtliches .menu-item .fa-file-alt{
+	font-size: 20px;
+}
+/* =============================================================== *\ 
+
+ 	 Allgemeine Seitenstruktur & Typografie
+
+\* =============================================================== */ 
+
+#linie_oben,
+#linie_unten{
+	height: 5px;
+	background: black;
+	width: 100%;
+	position: fixed;
+	z-index: 9997;
+	}
+	
+#linie_oben{
+	top:0;
+	}
+
+#linie_unten{
+	bottom:0;
+	}	
+
+#page_wrapper{
+	position: absolute;
+	min-height: 100%;
+    width: 100%;
+	background: white;
+	}
+	
+#content_container{
+	position: relative;	
+	width: 100%;
+	max-width:1000px;
+	margin: auto auto 200px auto;
+	padding-left: 100px;
+	padding-right: 100px;
+	}
+#content{
+	padding:15vh 0 20px 0;
+	}	
+
+#site-title{
+	position: fixed;
+	z-index: 9998;	
+	}
+
+#fathom_string_trio_logo{
+	display: block;
+	max-width: 100px;
+	height: auto;
+	/*transition: 0.5s;*/
+	}
+
+footer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	line-height: 1;
+	font-size: 16px;
+	height: auto;
+	}
+	
+.footer_content{
+	max-width: 800px;
+	width: 100%;
+	margin: auto;
+	padding-bottom: 10px;
+	}
+
+.footer_content .adress + .phone:before,
+.footer_content .adress + .email:before{
+	/*content: '';
+	height: 1em;
+	*/
+	width: 100%;
+	display: inline-block;
+	}
+
+h1, h2, h3, h4, h5, h6{
+	font-family: brandon-grotesque, sans-serif;
+	text-transform: uppercase;
+	font-style: normal;
+	font-weight: 900;	
+	}
+	
+h1{
+	font-size: 36px;
+	margin-bottom: 1em;
+	
+	}
+	
+h2{
+	margin-top: 1em;
+	font-size: 28px;
+	}	
+
+.lauftext{
+   padding: 1em 0 2em 0;
+   }
+
+a{
+   	text-decoration: none;
+   	color:black;
+   	border-bottom: 1px solid black;
+   	} 
+	
+.colored_link{
+	text-decoration: none;
+	color:black
+	}
+
+.colored_link[target="_blank"]:hover,
+.colored_link:hover{
+	background: #3062b5;
+	color: white;
+	text-decoration: none;
+	border-color: transparent;
+	transition: 0.3s;
+}
+
+.red_link{
+	border-color: transparent;
+	background: #b31717;
+	color: white;
+	padding: 3px 8px;
+	display: inline-block;
+}
+
+.teaser_bild{
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin-top: 50px;
+	}
+	
+/* =============================================================== *\ 
+
+ 	 Impressum 
+
+\* =============================================================== */ 
+.page-id-240 p + h2{
+	margin-top:6em;
+}
+
+.page-id-240 p + h3{
+	margin-top:1em;
+}	
+	
+/* =============================================================== *\ 
+
+ 	 Gallery 
+
+\* =============================================================== */ 
+  
+.gallery{
+	display: flex;
+	margin: -1.5%;
+}	
+.gallery li{
+/*	display: inline-block;
+	vertical-align: middle;
+*/	
+	width:30%;
+	margin: 1.5%;
+	}
+
+.gallery li img{
+	width: 100%;
+	height: auto;
+	}  
+	
+/* =============================================================== *\ 
+
+ 	 Home
+
+\* =============================================================== */ 
+.home #content_container{
+	max-width: 1400px;
+}
+.home #content{
+	padding-top:0;
+	line-height: 1;
+}
+
+#startseite_bild{
+	max-width:100%;
+    height: auto;
+    margin: auto auto 20px auto;
+    display: block;
+
+	}
+
+.auftritt_container{
+	margin-bottom: 200px;
+}
+.auftritt_container h2{
+	font-size: 36px;
+}
+.auftritt{
+	font-family: brandon-grotesque, sans-serif;
+	text-transform: uppercase;
+	font-style: normal;
+	font-weight: 900;
+	font-size: 36px;
+	}
+	
+.auftritt a{
+	text-decoration: none;
+	color:black;	
+}	
+.auftritt + .auftritt:before{
+	content:"\2022";
+	content:"\2261";
+	content: '';
+	width: 100%;
+	height: 1em;
+    display: inline-block;
+	}
+
+.auftritt a{
+	border-bottom: 3px solid black;
+	transition: 0.3s;
+	display: inline-block;
+	}
+	
+
+.unterseiten_link a{
+	font-size: 100%;
+	color: #b31717;
+	text-decoration: none;
+	border-bottom: 3px solid white;
+	}
+	
+.bull{
+	/*font-size: 66%;
+	vertical-align: 5px;
+*/}
+	
+/* =============================================================== *\ 
+
+ 	 Musiker-Portrait 
+
+\* =============================================================== */ 
+.single-portrait #content_container{
+	max-width: 100%;
+}
+
+.single-portrait h1,
+.single-portrait .einfuhrungstext{
+	/*margin: auto;*/
+	
+}
+
+.single-portrait .einfuhrungstext{
+	  column-count: 3;
+}
+.band_member_container{
+	display: flex;
+	margin: 50px -10px 100px -10px;
+	}
+	
+.band_member{
+	margin: 10px;
+	background: #f5f5f5;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: 1px;
+	overflow: hidden;
+/*	border-radius: 5px;
+	border-bottom: 7px solid black;
+*/
+border:0px solid black;	}
+	
+#band_member_bild{
+	max-width:100%;
+    height: auto;
+    margin: auto;
+    display: block;
+	}  
+	
+.text_container{
+	/*padding: 0 20px 20px;*/
+}	
+
+.text_container h2,
+.text_container .instrument,
+.text_container .kurzbio{
+padding: 0 20px;	
+}
+
+.text_container h2{
+	padding:10px 20px;
+	background: black;
+	color: white;
+	display: inline-block;
+}
+
+.text_container .instrument{
+	background: white;
+	padding: 10px 20px;
+	display: inline-block;
+}
+
+.text_container .kurzbio{
+	padding: 10px 20px;
+	
+}
+
+/* =============================================================== *\ 
+
+ 	 Single Konzert 
+
+\* =============================================================== */ 
+
+/* Wegen überhang zitat*/
+.single-agenda #content_container{
+	max-width: 100%;
+	}
+
+.single-agenda h1, 
+.single-agenda h2, 
+.single-agenda .datum_ort_container, 
+.single-agenda .mitwirkende_container, 
+.single-agenda .programmpunkt_container, 
+.single-agenda .beschreibung, .bild_container, 
+.single-agenda .gallery_container, 
+.single-agenda .programm_download, 
+.single-agenda .mehr,
+.single-agenda .solisten_portrait_container{
+	max-width: 1000px;
+	margin-left:auto;
+	margin-right: auto;
+	}
+
+.single-agenda .datum_ort_container{
+	line-height: 1.2;
+	margin-bottom: 10px;
+	}
+
+.single-agenda .bull{
+	vertical-align: 1px;
+	}
+
+.single-agenda h1{
+	margin-bottom: 0;
+}
+
+.single-agenda h2{
+	font-family:inherit;
+	text-transform:none;
+	font-weight: normal;
+	font-size: 100%;
+	font-style: italic;
+	margin-top:0;
+	}
+
+
+.mitwirkende_container{
+	text-transform: uppercase;
+	margin-top: 100px;
+	margin-bottom: 20px;
+	}
+
+.programmpunkt_container{
+	font-size: 85%;
+	margin:auto auto 200px;
+	background-image: linear-gradient(-45deg, black 25%, transparent 25%, transparent 50%, black 50%, black 75%, transparent 75%, transparent);
+	background-size: 20px 20px;	
+    padding: 100px;
+	}
+
+
+
+.programmpunkt{
+	background: #ffffff;
+    padding: 30px;
+	}
+/*
+.programmpunkt + .programmpunkt{
+	margin: 50px auto auto;
+	}
+	
+.komponist{
+	text-transform: uppercase;
+	}
+
+.jahrzahlen{
+	font-style: italic;
+	font-size:75%;
+	}
+
+.werktitel{
+	font-size: 120%;
+	}
+*/
+
+
+.programm_lauftext{}
+h3.programm_titel{
+	font-size: 120%;
+	}
+	
+.programm_uppercase{
+	text-transform: uppercase;
+	}
+	
+.programm_klein_italic{
+	font-style: italic;
+	font-size:75%;
+	}
+
+hr{
+	border-color: white;
+	border-width: 29px;
+border-top: 1px solid white;
+		display: block;
+	    unicode-bidi: isolate;
+	    margin-block-start: 0.5em;
+	    margin-block-end: 0.5em;
+	    margin-inline-start: auto;
+	    margin-inline-end: auto;
+	    overflow: hidden;
+	    border-style:solid;
+		border-top:0px solid;
+	}
+
+	
+.programm_download{
+	/*margin-left: 50px;*/
+	}
+	
+.programm_download a{
+	padding: 5px 0px;
+	transition: 0.3s;
+	font-size: 100%;
+	display: table;
+	text-decoration: none;
+	text-transform: uppercase;
+	margin-top:-200px;
+	margin-bottom:200px;
+	}
+
+.beschreibung_und_zitate{
+	margin-bottom: 400px;
+}
+	
+.beschreibungstext p + p:before{
+	content:"–";
+	display: block;
+	}	
+
+.bild {
+	margin: 50px auto;
+	}
+	
+.bild img{
+	margin-left: 0%;
+	max-width: 100%;
+    height: auto;
+	}
+
+.bildlegende{
+	font-size: 80%;
+	font-style: italic;	
+	}
+	
+.zitat_container{
+	text-align: center;
+	margin: 100px auto;
+	}
+
+.zitat{
+	font-family: rollerscript-smooth, sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 400%;
+	margin-bottom: -20px;
+	}
+
+.zitat_autor{
+	font-style: italic;
+	text-transform: uppercase;
+	}
+
+.mehr{
+	margin:400px auto;
+}
+
+.single-agenda .solisten_portrait_container{
+	margin: auto auto 200px;
+    background-image: linear-gradient(-45deg, black 25%, transparent 25%, transparent 50%, black 50%, black 75%, transparent 75%, transparent);
+    background-size: 20px 20px;
+    padding: 100px;
+
+}
+.solisten_portrait{
+	padding: 30px;
+	background:white;
+}	
+.solisten_portrait + .solisten_portrait{
+	margin: 50px auto auto;
+}
+.single-agenda .solisten_portrait_container .bild{
+	margin: auto;
+}
+.single-agenda .solisten_portrait_container img{
+	max-width: 100%;
+	margin: auto;
+}	
+/* =============================================================== *\ 
+
+ 	 Projekte-Übersicht 
+
+\* =============================================================== */ 
+.is_over,
+.is_over a{
+	text-decoration: line-through;
+}  
+.is_over a{
+	
+}
+
+/* =============================================================== *\ 
+
+ 	 Agenda-Archiv 
+	 Vergangene Konzerte-Archiv
+
+\* =============================================================== */ 
+.post-type-archive-agenda h1,
+.post-type-archive-konzert-archiv h1{
+	margin-bottom: 50px;
+}  
+.agenda_container{
+	line-height: 1;
+	}
+.agenda_container .auftritt{
+	margin-bottom: 100px;
+}
+.post-type-archive-agenda .teaser_bild,
+.post-type-archive-konzert-archiv .teaser_bild{
+	margin-top: 0;
+}
+
+/* =============================================================== *\ 
+
+ 	 Repertoire 
+
+\* =============================================================== */ 
+  
+.post-type-archive-repertoire article{
+	margin-bottom: 100px;
+	overflow: hidden;
+ 	}
+
+.post-type-archive-repertoire iframe{
+	max-width: 100%;	
+	}
+
+
+.repertoire .repertoire_grid{
+	margin-top: 0px;
+}
+
+li.repertoire_eintrag{
+	width:100%;
+	}
+
+.repertoire .button_group_filtern,
+.repertoire .button_group_sortieren{
+	line-height: 1;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -2px;
+}
+
+#rep_filter_sort,	
+.repertoire button{
+	font-family: jaf-domus, sans-serif;
+    border: none;
+    padding: 0 3px;
+    margin: 1px 2px;
+    font-size: 15px;
+	font-weight: 400;
+	background: #f5f5f5;
+	background:white;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+	text-transform: uppercase;
+	text-align: left;
+	border-bottom: 1px solid white;
+
+}
+
+#rep_filter_sort{
+display: inline-block;
+	padding: 0px 3px;
+	margin: 0;
+	font-style: italic;
+background:#fefefe;
+}
+
+.repertoire button:hover,
+.repertoire button.is-checked {
+    background: #fff;
+	border-bottom: 1px solid black;
+	/*font-style: italic;*/
+	}
+
+.repertoire button:focus {
+    /*outline: 1px solid #fff;
+    outline-offset: -4px;
+*/}
+
+.repertoire button:active {
+    transform: scale(0.97);
+	}
+
+.repertoire button.is-checked{background:black; color:white;}
+
+
+/* =============================================================== *\ 
+
+ 	 Presse 
+
+\* =============================================================== */ 
+  .download_pressematerial{
+	  margin-top: 1em;
+  }
+  
+.presseclippings{
+	display: flex;
+	flex-direction: column; 
+	margin-top:5em;
+	}
+.presseclippings a {
+	border:none;
+}
+
+.presseclippings .teaser_satz{
+	font-style: italic;
+    font-weight: 700;
+    font-size: 86%
+	}
+
+.presseclippings .quellenangabe{
+	font-style: italic;
+	font-size: 60%;
+	}	
+/* =============================================================== *\ 
+
+ 	 404 
+
+\* =============================================================== */ 
+
+.image_404{
+	width:100%;
+	height: auto;
+	margin-bottom: 1em;
+}  
+
+/* =============================================================== *\ 
+
+ 	 Media-Queries 
+
+\* =============================================================== */ 
+  
+
+@media (max-width: 1200px) {
+	.single-portrait .einfuhrungstext {
+	    column-count: 1;
+	}
+	.single-portrait .einfuhrungstext p + p:before{
+		content:"–";
+		display: block;
+	}
+}
+
+@media (max-width: 1000px) {
+	.band_member_container{
+		flex-direction: column;
+	}
+	.band_member{
+		overflow: visible;
+	}
+}
+
+
+@media (max-width: 600px) {
+	#branding #site-title{
+		width: 100%;
+	}
+	#fathom_string_trio_logo{
+		margin-left: 0;
+	}
+	#hamburger_container {		
+		display: block;
+		/* width: 100%; */
+		right: 0;
+		margin: auto;
+		top: auto;
+		background: transparent;
+		border-bottom: 5px solid transparent;
+	}
+	
+	.hamburger{
+		border-top:10px solid white;
+		border-left:10px solid white;
+		border-right:10px solid white;
+    	background: white;
+		width:58px;
+		height: 48px;
+		margin:-3px 0 auto auto;
+		}
+	
+	.hamburger.checked{
+		background: transparent;
+		border-top:10px solid transparent;
+		border-left:10px solid transparent;
+		border-right:10px solid transparent;
+		}
+		
+	#content_container {
+    	padding-left: 10px;
+    	padding-right: 10px;
+		}
+	.programmpunkt_container,	
+	.single-agenda .solisten_portrait_container {
+    	padding: 40px;
+	}
+
+	.gallery{
+		margin: 0;
+		flex-direction: column;
+		}	
+	
+	.gallery li{
+		width:100%;
+		margin: 0;
+		}
+
+}
+
+
+@media (max-width: 300px) {
+#content_container{overflow:hidden;}
+}
