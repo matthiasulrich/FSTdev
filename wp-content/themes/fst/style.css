@@ -14,6 +14,13 @@ FARBEN
 blau = #3062b5
 rot = #b31717;;
 */
+/* =============================================================== *\ 
+
+ 	 globals 
+
+\* =============================================================== */ 
+ img{height:auto;} 
+
 
 html{
 	background: black;
@@ -32,7 +39,18 @@ body{
 	font-size: 24px;
 	line-height: 1.5;
 	}
-	
+
+.wp-block-image img{
+    width: 100%;
+}
+/* =============================================================== *\ 
+
+ 	 Soundcloud 
+
+\* =============================================================== */ 
+  .fas.disabled{
+      display: none;
+  }
 
 /* =============================================================== *\ 
  	Footer unten 
@@ -43,7 +61,19 @@ body{
 	min-height: 100vh;	  
 	}
 	
-
+.home #content header + img{
+    opacity: 0.2;
+}
+.home h2{
+    margin-top:0;
+}
+.home figure{
+    margin-bottom: 0;
+}
+.home #content > article:first-of-type > .wp-block-image:first-child,
+#startseite_bild{
+    margin-top:-5em;
+}
 /* =============================================================== *\ 
 
  	 Titel 
@@ -241,10 +271,11 @@ body{
 #content_container{
 	position: relative;	
 	width: 100%;
-	max-width:1000px;
-	margin: auto auto 200px auto;
+	max-width:1400px;
+	margin: 5em auto 200px auto;
 	padding-left: 100px;
 	padding-right: 100px;
+    
 	}
 #content{
 	padding:15vh 0 20px 0;
@@ -272,10 +303,12 @@ footer{
 	}
 	
 .footer_content{
-	max-width: 800px;
+	max-width: 1400px;
 	width: 100%;
 	margin: auto;
 	padding-bottom: 10px;
+    padding-left: 100px;
+    padding-right: 100px;
 	}
 
 .footer_content .adress + .phone:before,
@@ -312,7 +345,7 @@ h2{
 a{
    	text-decoration: none;
    	color:black;
-   	border-bottom: 1px solid black;
+   	border-bottom: 2px solid black;
    	} 
 	
 .colored_link{
@@ -388,15 +421,15 @@ a{
 .home #content_container{
 	max-width: 1400px;
 }
-.home #content{
+#content{
 	padding-top:0;
-	line-height: 1;
+	line-height: 1.5em;
 }
 
-#startseite_bild{
+.attachment-startseite{
 	max-width:100%;
     height: auto;
-    margin: auto auto 20px auto;
+    margin: auto auto 5em auto;
     display: block;
 
 	}
@@ -482,7 +515,7 @@ a{
 */
 border:0px solid black;	}
 	
-#band_member_bild{
+.band_member_container .band_member_bild{
 	max-width:100%;
     height: auto;
     margin: auto;
@@ -504,6 +537,9 @@ padding: 0 20px;
 	background: black;
 	color: white;
 	display: inline-block;
+    font-size: 26px;
+    margin-bottom:0;
+    margin-top: 0em;
 }
 
 .text_container .instrument{
@@ -517,6 +553,7 @@ padding: 0 20px;
 	
 }
 
+
 /* =============================================================== *\ 
 
  	 Single Konzert 
@@ -524,39 +561,44 @@ padding: 0 20px;
 \* =============================================================== */ 
 
 /* Wegen überhang zitat*/
-.single-agenda #content_container{
-	max-width: 100%;
+#content_container{
 	}
 
-.single-agenda h1, 
-.single-agenda h2, 
-.single-agenda .datum_ort_container, 
-.single-agenda .mitwirkende_container, 
-.single-agenda .programmpunkt_container, 
-.single-agenda .beschreibung, .bild_container, 
-.single-agenda .gallery_container, 
-.single-agenda .programm_download, 
-.single-agenda .mehr,
-.single-agenda .solisten_portrait_container{
-	max-width: 1000px;
+article{
+	max-width: 1400px;
 	margin-left:auto;
 	margin-right: auto;
 	}
+article:first-of-type{
+    margin-top: 5em;
+}
+h2{
+    margin-bottom: 0.5em;
+    }
+    
+.wp-block-lazyblock-auffuhrung{
+    margin-bottom: 0.25em;
+    line-height: 1;
+    }
+    
+article .wp-block-lazyblock-auffuhrung:last-of-type{
+    margin-bottom:1em;
+    }
+    
+#content article:not(:first-of-type) {
+    margin-top: 5em;
+    }    
 
-.single-agenda .datum_ort_container{
-	line-height: 1.2;
-	margin-bottom: 10px;
-	}
 
-.single-agenda .bull{
+.single-projekt .bull{
 	vertical-align: 1px;
 	}
 
-.single-agenda h1{
+.single-projekt h1{
 	margin-bottom: 0;
 }
 
-.single-agenda h2{
+.single-projekt h2{
 	font-family:inherit;
 	text-transform:none;
 	font-weight: normal;
@@ -572,9 +614,9 @@ padding: 0 20px;
 	margin-bottom: 20px;
 	}
 
-.programmpunkt_container{
+.wp-block-lazyblock-migrane-rahmen{
 	font-size: 85%;
-	margin:auto auto 200px;
+	margin:2em auto;
 	background-image: linear-gradient(-45deg, black 25%, transparent 25%, transparent 50%, black 50%, black 75%, transparent 75%, transparent);
 	background-size: 20px 20px;	
     padding: 100px;
@@ -586,6 +628,12 @@ padding: 0 20px;
 	background: #ffffff;
     padding: 30px;
 	}
+    
+.other_projects{
+    margin-top: 5em;
+    display: flex;
+    flex-direction: column;
+}
 /*
 .programmpunkt + .programmpunkt{
 	margin: 50px auto auto;
@@ -615,10 +663,13 @@ h3.programm_titel{
 	text-transform: uppercase;
 	}
 	
-.programm_klein_italic{
+.single-projekt #content em{
 	font-style: italic;
 	font-size:75%;
 	}
+.single-projekt #content p + p{
+margin-top: 1em;
+}
 
 hr{
 	border-color: white;
@@ -635,7 +686,30 @@ border-top: 1px solid white;
 		border-top:0px solid;
 	}
 
-	
+.alert-text{
+    text-transform: uppercase;
+    font-weight: 600;
+    background: #d21313;
+    color: white;
+    padding: 0 3px 0 5px;
+    letter-spacing: 1px;
+    border-radius: 0px;
+    font-size: 70%;
+}
+
+
+.fa-siren-on {
+  animation: move 2s;
+}
+
+@keyframes move {
+  0% {
+    color:red;
+  }
+  100% {
+    color:green;
+  }
+}
 .programm_download{
 	/*margin-left: 50px;*/
 	}
@@ -697,7 +771,7 @@ border-top: 1px solid white;
 	margin:400px auto;
 }
 
-.single-agenda .solisten_portrait_container{
+.single-projekt .solisten_portrait_container{
 	margin: auto auto 200px;
     background-image: linear-gradient(-45deg, black 25%, transparent 25%, transparent 50%, black 50%, black 75%, transparent 75%, transparent);
     background-size: 20px 20px;
@@ -711,10 +785,10 @@ border-top: 1px solid white;
 .solisten_portrait + .solisten_portrait{
 	margin: 50px auto auto;
 }
-.single-agenda .solisten_portrait_container .bild{
+.single-projekt .solisten_portrait_container .bild{
 	margin: auto;
 }
-.single-agenda .solisten_portrait_container img{
+.single-projekt .solisten_portrait_container img{
 	max-width: 100%;
 	margin: auto;
 }	
@@ -723,9 +797,10 @@ border-top: 1px solid white;
  	 Projekte-Übersicht 
 
 \* =============================================================== */ 
-.is_over,
-.is_over a{
-	text-decoration: line-through;
+.is_over{
+    filter: saturate(0);
+    opacity: 0.3;
+/*color:#ccc;*/
 }  
 .is_over a{
 	
@@ -768,7 +843,7 @@ border-top: 1px solid white;
 	}
 
 
-.repertoire .repertoire_grid{
+.repertoire_container_block .repertoire_grid{
 	margin-top: 0px;
 }
 
@@ -776,16 +851,19 @@ li.repertoire_eintrag{
 	width:100%;
 	}
 
-.repertoire .button_group_filtern,
-.repertoire .button_group_sortieren{
+.repertoire_container_block .button_group_filtern,
+.repertoire_container_block .button_group_sortieren{
 	line-height: 1;
 	display: flex;
 	flex-wrap: wrap;
 	margin: 0 -2px;
 }
-
+#filter_sort_buttons{
+    margin-bottom: 0.5em;
+    }
+    
 #rep_filter_sort,	
-.repertoire button{
+.repertoire_container_block button{
 	font-family: jaf-domus, sans-serif;
     border: none;
     padding: 0 3px;
@@ -814,25 +892,35 @@ display: inline-block;
 background:#fefefe;
 }
 
-.repertoire button:hover,
-.repertoire button.is-checked {
+.repertoire_container_block button:hover,
+.repertoire_container_block button.is-checked {
     background: #fff;
 	border-bottom: 1px solid black;
 	/*font-style: italic;*/
 	}
 
-.repertoire button:focus {
+.repertoire_container_block button:focus {
     /*outline: 1px solid #fff;
     outline-offset: -4px;
 */}
 
-.repertoire button:active {
+.repertoire_container_block button:active {
     transform: scale(0.97);
 	}
 
-.repertoire button.is-checked{background:black; color:white;}
+.repertoire_container_block button.is-checked{background:black; color:white;}
 
+.audio_buttons{
+    cursor: pointer;
+}
 
+.is-provider-soundcloud iframe{
+    width:100%;
+    height: 100px;
+}
+.repertoire_eintrag{
+    line-height: 1.5em;
+}
 /* =============================================================== *\ 
 
  	 Presse 
@@ -854,12 +942,15 @@ background:#fefefe;
 .presseclippings .teaser_satz{
 	font-style: italic;
     font-weight: 700;
-    font-size: 86%
+    font-size: 21px;
+    line-height:31px;
 	}
 
 .presseclippings .quellenangabe{
 	font-style: italic;
-	font-size: 60%;
+	font-size: 14px;
+    line-height: 1.5em;
+    
 	}	
 /* =============================================================== *\ 
 
@@ -939,7 +1030,7 @@ background:#fefefe;
     	padding-right: 10px;
 		}
 	.programmpunkt_container,	
-	.single-agenda .solisten_portrait_container {
+	.single-projekt .solisten_portrait_container {
     	padding: 40px;
 	}
 
@@ -952,6 +1043,9 @@ background:#fefefe;
 		width:100%;
 		margin: 0;
 		}
+        .footer_content{
+            padding: 0 10px;
+        }
 
 }
 
@@ -959,3 +1053,25 @@ background:#fefefe;
 @media (max-width: 300px) {
 #content_container{overflow:hidden;}
 }
+
+/* =============================================================== *\ 
+
+ 	 intern 
+
+\* =============================================================== */ 
+.page-template-page-intern .wp-block-group{
+      padding: 1em;
+font-size: 75%;
+background: #f78da745;
+border-radius: 5px;
+  }
+  .page-template-page-intern ul{
+      list-style: disc;
+      list-style-position: outside;
+      margin-left:1em;
+  }
+.page-template-page-intern strong{
+    font-weight: bold;
+    background: #f78da7b0;
+
+padding:0 3px;}

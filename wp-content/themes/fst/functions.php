@@ -5,6 +5,7 @@
 */
 
 setlocale(LC_TIME, "de_DE.utf8");
+//date_default_timezone_set ( "Europe/Zurich" );
 
 /* ============================================ *\
     header.php aufraeumen
@@ -109,13 +110,34 @@ function enqueue_comment_reply_script() {
 }
 
 
+/* =============================================================== *\ 
+
+ 	 Javascript Admin 
+
+\* =============================================================== */ 
+  
+
+add_action( 'init', 'remove_block_style' );
+function remove_block_style() {
+	// Register the block editor script.
+	wp_register_script( 'remove-block-style', get_stylesheet_directory_uri() . '/js/admin_ulrich_digital.js', [ 'wp-blocks', 'wp-edit-post' ] );
+	// register block editor script.
+	register_block_type( 'remove/block-style', [
+		'editor_script' => 'remove-block-style',
+	] );
+}
+
+
+
+
 
 /* ============================================ *\
 
 	Theme Support
 
 \* ============================================ */
-
+// Add support for responsive embedded content.
+add_theme_support( 'responsive-embeds' );
 
 /*Title*/
 add_filter( 'document_title_separator', 'document_title_separator' );
@@ -123,6 +145,17 @@ function document_title_separator( $sep ) {
     $sep = '|';
     return $sep;
 }
+
+//Disable Drop Cap + Font-Sizes
+//add_theme_support('editor-font-sizes');
+add_filter( 'block_editor_settings', function ($editor_settings) {
+        $editor_settings['__experimentalFeatures']['defaults']['typography']['dropCap'] = false;
+//		print_r($editor_settings);
+		return $editor_settings;
+    }
+);
+
+
 
 add_filter( 'the_title', 'mytitle' );
 function mytitle( $title ) {
@@ -284,6 +317,12 @@ function bildgroessen_auswaehlen($sizes) {
 	}
 
 
+/* =============================================================== *\ 
+
+ 	 Titel 
+
+\* =============================================================== */ 
+  
 
 
 /*===============================================================*\
@@ -489,7 +528,8 @@ function my_acf_save_post( $post_id ) {
 		//$filename ="../downloads/" . $sprach_kuerzel . "/peter_werlen.zip";
 		$serverpfad = getcwd();
 		$serverpfad_gekuerzt = str_replace ("/wp-admin", "", $serverpfad);
-		$server_filename = $serverpfad_gekuerzt . "/downloads/" . $sprach_kuerzel . "/peter_werlen.zip";
+//		$server_filename = $serverpfad_gekuerzt . "/downloads/" . $sprach_kuerzel . "/fathom_string_trio.zip";
+		$server_filename = $serverpfad_gekuerzt . "/downloads/fathom_string_trio.zip";
 		//altes ZIP-Archiv löschen, wenn vorhanden 
 		if (file_exists ( $filename )){ 
 			unlink($server_filename); 
@@ -526,7 +566,19 @@ function my_acf_save_post( $post_id ) {
 }
 
 
+/* =============================================================== *\ 
 
+ 	 Auf home.php den CPT Projekt ausgeben 
+
+\* =============================================================== */ 
+  
+function wpsites_home_page_cpt_filter($query) {
+if ( !is_admin() && $query->is_main_query() && is_home() ) {
+$query->set('post_type', array( 'projekt' ) );
+    }
+  }
+
+add_action('pre_get_posts','wpsites_home_page_cpt_filter');
 
 
 
@@ -543,47 +595,13 @@ function my_acf_save_post( $post_id ) {
 
 \*===============================================================*/
 
-add_action('init','ab_register_post_type_agenda');
-function ab_register_post_type_agenda(){
-$supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
-$labels = array(
-    'name' => 'Agenda',
-    'menu_name' => 'Projekte',
-    'add_new' => 'Hinzuf&uuml;gen',
-    'add_new_item' => 'Neuer Eintrag hinzuf&uuml;gen',
-    'edit_item' => 'Eintrag bearbeiten',
-    'new_item' => 'Neuer Eintrag',
-    'view_item' => 'Eintrag anzeigen',
-    'search_items' => 'Eintrag suchen',
-    'not_found' => 'Kein Eintrag gefunden',
-    'not_found_in_trash' => 'Kein Eintrag im Papierkorb'
-	);
-$args = array(
-    'supports' => $supports,
-    'labels' => $labels,
-    'description' => 'Post-Type f&uuml;r Agenda',
-    'public' => true,
-	'show_in_nav_menus' => true,
-    'show_in_menu' => true,
-    'has_archive' => true,
-    'query_var' => true,
-	'menu_icon' => 'dashicons-megaphone',
-    'taxonomies' => array('topics', 'category'),
-    'rewrite' => array(
-        'slug' => 'agenda',
-        'with_front' => true
-   		),
-	);
-register_post_type('Agenda', $args);
-}
-
 
 add_action('init','ab_register_post_type_projekt');
 function ab_register_post_type_projekt(){
 $supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
 $labels = array(
-    'name' => 'Projekt',
-    'menu_name' => 'Projekte neu',
+    'name' => 'Projekte',
+    'menu_name' => 'Projekte',
     'add_new' => 'Hinzuf&uuml;gen',
     'add_new_item' => 'Neuer Eintrag hinzuf&uuml;gen',
     'edit_item' => 'Eintrag bearbeiten',
@@ -613,43 +631,7 @@ $args = array(
 register_post_type('projekt', $args);
 }
 
-
-add_action('init','ab_register_post_type_konzert_archiv');
-function ab_register_post_type_konzert_archiv(){
-$supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
-$labels = array(
-    'name' => 'Agenda-Archiv',
-    'menu_name' => 'Agenda-Archiv',
-    'add_new' => 'Hinzuf&uuml;gen',
-    'add_new_item' => 'Neuer Eintrag hinzuf&uuml;gen',
-    'edit_item' => 'Eintrag bearbeiten',
-    'new_item' => 'Neuer Eintrag',
-    'view_item' => 'Eintrag anzeigen',
-    'search_items' => 'Eintrag suchen',
-    'not_found' => 'Kein Eintrag gefunden',
-    'not_found_in_trash' => 'Kein Eintrag im Papierkorb'
-	);
-$konzert_archiv_args = array(
-    'supports' => $supports,
-    'labels' => $labels,
-    'description' => 'Post-Type f&uuml;r Konzert-Archiv',
-    'public' => true,
-    'show_in_nav_menus' => true,
-    'show_in_menu' => true,
-    'has_archive' => true,
-    'query_var' => true,
-	'menu_icon' => 'dashicons-megaphone',
-    'taxonomies' => array('topics', 'category'),
-    'rewrite' => array(
-        'slug' => 'konzert_archiv',
-        'with_front' => true
-   		),
-	);
-register_post_type('Konzert-Archiv', $konzert_archiv_args);
-}
-
-
-add_action('init','ab_register_post_type_portrait');
+//add_action('init','ab_register_post_type_portrait');
 function ab_register_post_type_portrait(){
 $supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
 $labels = array(
@@ -684,70 +666,91 @@ $portrait_args = array(
 register_post_type('portrait', $portrait_args);
 }
 
-add_action('init','ab_register_post_type_repertoire');
-function ab_register_post_type_repertoire(){
-$supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
-$labels = array(
-    'name' => 'Repertoire',
-    'menu_name' => 'Repertoire',
-    'add_new' => 'Hinzuf&uuml;gen',
-    'add_new_item' => 'Neuer Eintrag hinzuf&uuml;gen',
-    'edit_item' => 'Eintrag bearbeiten',
-    'new_item' => 'Neuer Eintrag',
-    'view_item' => 'Eintrag anzeigen',
-    'search_items' => 'Eintrag suchen',
-    'not_found' => 'Kein Eintrag gefunden',
-    'not_found_in_trash' => 'Kein Eintrag im Papierkorb'
-	);
-$repertoire_args = array(
-    'supports' => $supports,
-    'labels' => $labels,
-    'description' => 'Post-Type f&uuml;r Repertoire',
-    'public' => true,
-    'show_in_nav_menus' => true,
-    'show_in_menu' => true,
-    'has_archive' => true,
-    'query_var' => true,
-	'menu_icon' => 'dashicons-playlist-audio',
-    'taxonomies' => array('topics', 'category'),
-    'rewrite' => array(
-        'slug' => 'repertoire',
-        'with_front' => true
-   		),
-	);
-register_post_type('repertoire', $repertoire_args);
-}
 
-add_action('init','ab_register_post_type_presse');
-function ab_register_post_type_presse(){
-$supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
-$labels = array(
-    'name' => 'Presse',
-    'menu_name' => 'Presse',
-    'add_new' => 'Hinzuf&uuml;gen',
-    'add_new_item' => 'Neuer Eintrag hinzuf&uuml;gen',
-    'edit_item' => 'Eintrag bearbeiten',
-    'new_item' => 'Neuer Eintrag',
-    'view_item' => 'Eintrag anzeigen',
-    'search_items' => 'Eintrag suchen',
-    'not_found' => 'Kein Eintrag gefunden',
-    'not_found_in_trash' => 'Kein Eintrag im Papierkorb'
-	);
-$presse_args = array(
-    'supports' => $supports,
-    'labels' => $labels,
-    'description' => 'Post-Type f&uuml;r Presse',
-    'public' => true,
-    'show_in_nav_menus' => true,
-    'show_in_menu' => true,
-    'has_archive' => false,
-    'query_var' => true,
-	'menu_icon' => 'dashicons-media-document',
-    'taxonomies' => array('topics', 'category'),
-    'rewrite' => array(
-        'slug' => 'presse',
-        'with_front' => true
-   		),
-	);
-register_post_type('presse', $presse_args);
+
+/* =============================================================== *\ 
+
+ 	 ACF als Block hinzufügen 
+
+\* =============================================================== */ 
+add_action('acf/init', 'my_acf_init_block_types');
+function my_acf_init_block_types() {
+    if( function_exists('acf_register_block_type') ) {
+        // Register the Repertoire Block Container
+        acf_register_block_type(array(
+            'name'              => 'repertoire_container',
+            'title'             => 'Repertoire-Container',
+            'description'       => 'Container-Block für Repertoire. Fügt im Front-End eine Filter-Funktion ein.',
+            'category'          => 'formatting',
+            'mode'              => 'preview',
+			'icon'				=> 'editor-ul',
+            'supports'          => array(
+                'align' => true,
+                'mode' => false,
+                'jsx' => true
+            ),
+            'render_template' => 'blocks/acf-filter/block.php',
+        ));
+    
+        acf_register_block_type(array(
+            'name'              => 'repertoire',
+            'title'             => 'Repertoire-Eintrag',
+            'description'       => 'Mit diesem Block kann ein Werk in das Repertoire aufgenommen werden.',
+			'render_template'   => 'blocks/acf-repertoire/block.php',
+            'category'          => 'formatting',
+            'icon'              => 'format-audio',
+			'mode'				=> 'edit',
+			'supports'			=> array(
+				'align' => true,
+		//		'mode' => false,
+				'jsx' => true
+			),
+        ));
+    
+		acf_register_block_type(array(
+			'name'              => 'band-mitglied',
+			'title'             => 'Band-Mitglied',
+			'description'       => 'Band-Mitglied.',
+			'render_template'   => 'blocks/acf-bandmitglied/block.php',
+			'category'          => 'formatting',
+			'icon'              => 'format-audio',
+			'mode'				=> 'edit',
+			'supports'			=> array(
+				'align' => true,
+				'mode' => false,
+				'jsx' => true
+			),
+		));
+	
+		acf_register_block_type(array(
+			'name'              => 'pressemappe',
+			'title'             => 'Presse-Mappe',
+			'description'       => 'Presse-Mappe.',
+			'render_template'   => 'blocks/acf-pressemappe/block.php',
+			'category'          => 'formatting',
+			'icon'              => 'format-audio',
+			'mode'				=> 'edit',
+			'supports'			=> array(
+				'align' => true,
+				'mode' => false,
+				'jsx' => true
+			),
+		));
+		
+		acf_register_block_type(array(
+			'name'              => 'pressclipping',
+			'title'             => 'Presse-Clippings',
+			'description'       => 'Presse-Clippings.',
+			'render_template'   => 'blocks/acf-presseclippings/block.php',
+			'category'          => 'formatting',
+			'icon'              => 'format-audio',
+			'mode'				=> 'edit',
+			'supports'			=> array(
+				'align' => true,
+				'mode' => false,
+				'jsx' => true
+			),
+		));
+	}
+	
 }

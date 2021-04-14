@@ -1,16 +1,26 @@
 <?php get_header(); ?>
 <section id="content" role="main">
 <header class="header">
-<h1 class="entry-title">Repertoire</h1>
+<h1 class="entry-title">Vergangene Projekte</h1>
 </header>
-<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+<?php 
 
+include get_template_directory() . '/template_parts/datum_sortier_maschine.php';
+?>
 
+<?php 
+/* =============================================================== *\ 
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php get_template_part( 'entry', 'content' ); ?>
-</article>
-<?php endwhile; ?>
-<?php endif; ?>
-</section>
+ 	 Ausgabe 
+
+\* =============================================================== */ 
+include get_template_directory() . '/template_parts/projekt_ausgabe.php';
+?>
+<?php 
+/* =============================================================== *\ 
+ 	Prev- und Next ausgeben
+\* =============================================================== */ 
+include get_template_directory() . '/template_parts/prev_next_link.php';
+?>
+
 <?php get_footer(); ?>
