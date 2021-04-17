@@ -214,6 +214,7 @@ $(".repertoire_eintrag .audio_button.pause").on('click', function(){
 \* =============================================================== */ 
   
 $( ".band_member" ).wrapAll( "<div class='band_member_container' />");
+$( ".presseclippings" ).wrapAll( "<div class='presseclippings_container' />");
 
 
 }//readyState

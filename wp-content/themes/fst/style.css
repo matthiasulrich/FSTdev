@@ -62,7 +62,6 @@ body{
 	}
 	
 .home #content header + img{
-    opacity: 0.2;
 }
 .home h2{
     margin-top:0;
@@ -930,11 +929,18 @@ background:#fefefe;
 	  margin-top: 1em;
   }
   
-.presseclippings{
+.presseclippings_container{
 	display: flex;
-	flex-direction: column; 
-	margin-top:5em;
+    flex-direction: column;
+    margin:0 -20px;
 	}
+
+.presseclippings{
+    display: flex;
+    flex-direction: column; 
+	margin:20px;
+	}    
+    
 .presseclippings a {
 	border:none;
 }

@@ -26,31 +26,27 @@ wp.domReady(() => {
     
     
     var removeDropCap = function(settings, name) {
-  if (name !== "core/paragraph") {
-    return settings;
-  }
+        if (name !== "core/paragraph") {
+            return settings;
+        }
 
-  var newSettings = Object.assign({}, settings);
+        var newSettings = Object.assign({}, settings);
 
-  if (
-    newSettings.supports &&
-    newSettings.supports.__experimentalFeatures &&
-    newSettings.supports.__experimentalFeatures.typography &&
-    newSettings.supports.__experimentalFeatures.typography.dropCap
-  ) {
-    newSettings.supports.__experimentalFeatures.typography.dropCap = false;
-  }
+        if (
+            newSettings.supports &&
+            newSettings.supports.__experimentalFeatures &&
+            newSettings.supports.__experimentalFeatures.typography &&
+            newSettings.supports.__experimentalFeatures.typography.dropCap
+        ) {
+            newSettings.supports.__experimentalFeatures.typography.dropCap = false;
+        }
 
-  return newSettings;
-};
+        return newSettings;
+    };
 
-wp.hooks.addFilter(
-  "blocks.registerBlockType",
-  "sc/gb/remove-drop-cap",
-  removeDropCap
-);
-    
-    
-    
-    
-} );
+    wp.hooks.addFilter(
+        "blocks.registerBlockType",
+        "sc/gb/remove-drop-cap",
+        removeDropCap
+    );
+});

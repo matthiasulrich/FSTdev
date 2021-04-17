@@ -149,10 +149,9 @@ function document_title_separator( $sep ) {
 //Disable Drop Cap + Font-Sizes
 //add_theme_support('editor-font-sizes');
 add_filter( 'block_editor_settings', function ($editor_settings) {
-        $editor_settings['__experimentalFeatures']['defaults']['typography']['dropCap'] = false;
-//		print_r($editor_settings);
-		return $editor_settings;
-    }
+	$editor_settings['__experimentalFeatures']['defaults']['typography']['dropCap'] = false;
+	return $editor_settings;
+	}
 );
 
 
@@ -203,33 +202,6 @@ function ulrichdigital_blank_widgets_init() {
 if( function_exists('acf_add_options_page') ) {
 		acf_add_options_page();
 }
-
-
-/* =============================================================== *\ 
-
- 	 ACF WYSIWYG - TOOLBAR anpassen
-
-\* =============================================================== */ 
-//https://www.advancedcustomfields.com/resources/customize-the-wysiwyg-toolbars/
-
-add_filter( 'acf/fields/wysiwyg/toolbars' , 'my_toolbars'  );
-function my_toolbars( $toolbars ) {
-
-	/*
-	echo '< pre >';
-		print_r($toolbars);
-	echo '< /pre >';
-	//die;
-	*/
-
-
-  $toolbars['Very Simple' ] = array();
-  $toolbars['Very Simple' ][1] = array('styleselect','hr' );
-
-  // return $toolbars - IMPORTANT!
-  return $toolbars;
-}
-
 
 
 
@@ -291,10 +263,6 @@ add_filter('tiny_mce_before_init', 'my_mce_before_init_insert_formats');
 
 
 
-
-
-
-
 /*===============================================================*\
 
 	Eigene Bildgroesse
@@ -316,13 +284,6 @@ function bildgroessen_auswaehlen($sizes) {
 	return array_merge($sizes, $custom_sizes);
 	}
 
-
-/* =============================================================== *\ 
-
- 	 Titel 
-
-\* =============================================================== */ 
-  
 
 
 /*===============================================================*\
@@ -438,138 +399,150 @@ add_filter( 'admin_footer_text', 'backend_entwickelt_mit_herz' );
 /* =============================================================== *\ 
 
  	 ZIP-Archiv 
+	 ACF beim save_post einhaken
+	 https://www.advancedcustomfields.com/resources/acf-save_post/
 
 \* =============================================================== */ 
-  
-/*
-ACF beim save_post einhaken
-https://www.advancedcustomfields.com/resources/acf-save_post/
-*/
-
-
-/*
-gets the current post-type in the WordPress Admin
-*/
+ 
+// gets the current post-type in the WordPress Admin
 function get_current_post_type() {
 	global $post, $typenow, $current_screen;
 	
 	//we have a post so we can just get the post type from that
-	if ( $post && $post->post_type ) {
-		return $post->post_type;
-	}
+	if ( $post && $post->post_type ) { return $post->post_type; }
 	
 	//check the global $typenow - set in admin.php
-	elseif ( $typenow ) { 
-		return $typenow; 
-	}
+	elseif ( $typenow ) { return $typenow; }
 	
 	//check the global $current_screen object - set in sceen.php
-	elseif ( $current_screen && $current_screen->post_type ) {
-		return $current_screen->post_type;
-	}
+	elseif ( $current_screen && $current_screen->post_type ) { return $current_screen->post_type; }
 	
 	//check the post_type querystring
-	elseif ( isset( $_REQUEST['post_type'] ) ) {
-		return sanitize_key( $_REQUEST['post_type'] );
-	}
+	elseif ( isset( $_REQUEST['post_type'] ) ) { return sanitize_key( $_REQUEST['post_type'] );}
 	
 	//lastly check if post ID is in query string
-	elseif ( isset( $_REQUEST['post'] ) ) {
-		return get_post_type( $_REQUEST['post'] );
-	}
-		//we do not know the post type!
-	return null;
+	elseif ( isset( $_REQUEST['post'] ) ) { return get_post_type( $_REQUEST['post'] ); }
+	return null; //we do not know the post type!
 }
-
 get_current_post_type();
 
 
-/*
-gets the current post-id in the WordPress Admin
-*/
+//gets the current post-id in the WordPress Admin
 function filter_query( $query ) {
     if(in_the_loop()) :
 		$post_id = get_the_ID();
     else: 
 		$post_id = get_queried_object_id();
 	endif;
+	
     if($post_id) {
         if(empty($query['post__not_in'])) $query['post__not_in'] = array(); // that way if someone else already has stuff in $query['post__not_in'], we won't override it but append to it...
         $query['post__not_in'][] = $post_id;
     }
+echo "post_id:" . $post_id;
     return $query;
 }
 add_filter('wpc_query', 'filter_query', 1 );
 
 
 
-/*
-ACF HOOK > priorität 20 = nach dem Speichern
-*/
+function myplugin_setup() {
+	global $pagenow;
+	if (( $pagenow == 'post.php' ) || (get_post_type() == 'post')) { // admin > edit
+		global $post;
+    	$post_id = $post->ID;
+	}
+}
+add_action('admin_head', 'myplugin_setup',20,3 );
 
+//ACF-Verseon
 //my_acf_save_post(216); //> beim Debugging die funktion ohne speicher button aufrufen
+//add_action('acf/save_post', 'my_acf_save_post', 20);
 
-add_action('acf/save_post', 'my_acf_save_post', 20);
-
-function my_acf_save_post( $post_id ) {
-
-
-	if (get_current_post_type() == "presse"){
-		
-		
-		//$my_folder = "../downloads/" . $sprach_kuerzel . "/";
-		$my_folder = "../downloads/";
-		
+// Beim Entwickeln ohne save
+//my_save_post(867);
+add_action('save_post', 'my_save_post', 20);
+function my_save_post($post_id){
+	$my_folder = "../downloads/";
+	
+	if ( has_block( 'lazyblock/presse-mappe', $post_id ) ) {
 		if (!is_dir($my_folder)) {
 			mkdir($my_folder, 0747);
 		}
+
 		$filename ="../downloads/fathom_string_trio.zip";
-		//$sprach_kuerzel = pll_get_post_language($post_id);
-		//$filename ="../downloads/" . $sprach_kuerzel . "/peter_werlen.zip";
 		$serverpfad = getcwd();
 		$serverpfad_gekuerzt = str_replace ("/wp-admin", "", $serverpfad);
-//		$server_filename = $serverpfad_gekuerzt . "/downloads/" . $sprach_kuerzel . "/fathom_string_trio.zip";
 		$server_filename = $serverpfad_gekuerzt . "/downloads/fathom_string_trio.zip";
+		
 		//altes ZIP-Archiv löschen, wenn vorhanden 
 		if (file_exists ( $filename )){ 
 			unlink($server_filename); 
 		} 
 
-		// neues ZIP-Archiv erstellen
+		//neues ZIP-Archiv erstellen
 		$zip = new ZipArchive();
 		
 		if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) { 
-				exit("cannot open <$filename>\n"); 
-			} 
+   			exit("cannot open <$filename>\n"); 
+   			} 
 
-			// Dateien holen und dem ZIP-Archive hinzufügen
-			if( have_rows('dateien_container', $post_id) ):		
-				while ( have_rows('dateien_container', $post_id) ) : the_row();
-				
-			        $dateien = get_sub_field('datei', $post_id);
-			        $ganzerPfad = $dateien['url'];
-			        $dateiName = $dateien['filename'];
-			        //teilurl: alles was vor dem wp-content ist abschneiden
-			        $rest_pre = strpos($ganzerPfad, "wp-content", $offset = 0); 
-			        $rest = substr($ganzerPfad, $rest_pre);
-					$rest = "../" . $rest;
-					$zip->addFile($rest, $dateiName);
-									
-				endwhile;
-			endif;	
+            $content = get_post_field( 'post_content', $post_id );
+            $blocks = parse_blocks( $content );
+            if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+                return false;
+            }
 
-		$zip->close();
-	
+			$file_repeater= array();
+			foreach ( $blocks as $block ) {
+				if('lazyblock/presse-mappe' == $block['blockName']){
+
+					$shitty_string = ($block['attrs']['dateien-fur-pressemappe']);
+					$teile = explode(",", $shitty_string);
+					$counter = 0;
+					foreach($teile as $teil){
+						if (strpos($teil, 'url') !== false) {
+							$file_repeater[$counter]['url'] = $teil;
+						}
+						if (strpos($teil, 'title') !== false) {
+							$file_repeater[$counter]['title'] = $teil;
+						}
+						if (strpos($teil, 'url') !== false) {
+							$counter++;
+						}
+					}
+				}
+			}
+
+			$temp_arr = array();
+			foreach($file_repeater as $datensatz){
+				$datensatz = str_replace(array('%22','%7D%7D','%5D', 'title:', 'url:'), "", $datensatz);
+				$temp_arr[] = $datensatz;
+			}
+			
+			foreach($temp_arr as $datensatz){
+				$ganzerPfad = $datensatz['url'];
+				$dateiName = $datensatz['title'];
+				$suffix = substr($ganzerPfad, -3);
+				$dateiName = $dateiName . "." . $suffix;
+				$rest_pre = strpos($ganzerPfad, "wp-content", $offset = 0); // alles was vor dem wp-content ist abschneiden
+				$rest = substr($ganzerPfad, $rest_pre);
+				$rest = "../" . $rest;
+				$zip->addFile($rest, $dateiName);
+			}
+
+	 $zip->close();
+ 
 	} else { //get_current_post_type
-   		return;
+		return;
 	}
+	
 }
 
 
+
 /* =============================================================== *\ 
-
  	 Auf home.php den CPT Projekt ausgeben 
-
 \* =============================================================== */ 
   
 function wpsites_home_page_cpt_filter($query) {
@@ -577,7 +550,6 @@ if ( !is_admin() && $query->is_main_query() && is_home() ) {
 $query->set('post_type', array( 'projekt' ) );
     }
   }
-
 add_action('pre_get_posts','wpsites_home_page_cpt_filter');
 
 
@@ -707,7 +679,7 @@ function my_acf_init_block_types() {
 			),
         ));
     
-		acf_register_block_type(array(
+	/*	acf_register_block_type(array(
 			'name'              => 'band-mitglied',
 			'title'             => 'Band-Mitglied',
 			'description'       => 'Band-Mitglied.',
@@ -721,29 +693,14 @@ function my_acf_init_block_types() {
 				'jsx' => true
 			),
 		));
-	
-		acf_register_block_type(array(
-			'name'              => 'pressemappe',
-			'title'             => 'Presse-Mappe',
-			'description'       => 'Presse-Mappe.',
-			'render_template'   => 'blocks/acf-pressemappe/block.php',
-			'category'          => 'formatting',
-			'icon'              => 'format-audio',
-			'mode'				=> 'edit',
-			'supports'			=> array(
-				'align' => true,
-				'mode' => false,
-				'jsx' => true
-			),
-		));
-		
+	*/	
 		acf_register_block_type(array(
 			'name'              => 'pressclipping',
 			'title'             => 'Presse-Clippings',
 			'description'       => 'Presse-Clippings.',
 			'render_template'   => 'blocks/acf-presseclippings/block.php',
 			'category'          => 'formatting',
-			'icon'              => 'format-audio',
+			'icon'              => 'format-aside',
 			'mode'				=> 'edit',
 			'supports'			=> array(
 				'align' => true,
